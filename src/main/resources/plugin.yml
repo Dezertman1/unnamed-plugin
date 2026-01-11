@@ -2,5 +2,21 @@ name: UnnamedRebalance
 version: 1.0.0
 main: com.unnamedrebalance.UnnamedRebalance.UnnamedRebalance
 api-version: '1.21'
-author: Dezertman1
+author: YourName
 description: Custom gameplay modifications
+
+commands:
+  tradeheart:
+    description: Trade your max health for a Heart Container item
+    usage: /tradeheart [hearts]
+    aliases: [th, trade]
+  resethealth:
+    description: Reset a player's max health to default (10 hearts)
+    usage: /resethealth [player]
+    permission: unnamedrebalance.resethealth
+    aliases: [rh]
+
+permissions:
+  unnamedrebalance.resethealth:
+    description: Allows resetting player health
+    default: op
