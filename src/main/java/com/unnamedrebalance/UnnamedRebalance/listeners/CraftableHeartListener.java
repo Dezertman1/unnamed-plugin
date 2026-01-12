@@ -28,7 +28,7 @@ public class CraftableHeartListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         
-        if (item.getType() == Material.NETHER_STAR && item.hasItemMeta()) {
+        if (item.getType() == Material.RED_DYE && item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
             if (meta != null && meta.getPersistentDataContainer().has(craftableHeartKey, PersistentDataType.DOUBLE)) {
                 event.setCancelled(true);
