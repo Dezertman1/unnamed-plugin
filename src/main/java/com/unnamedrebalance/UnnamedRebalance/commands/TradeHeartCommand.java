@@ -33,7 +33,7 @@ public class TradeHeartCommand implements CommandExecutor {
         Player player = (Player) sender;
         
         // Parse hearts argument (default to 1)
-        double heartsToTrade = 1.0;
+        double heartsToTrade = 1;
         if (args.length > 0) {
             try {
                 heartsToTrade = Double.parseDouble(args[0]);
@@ -92,7 +92,7 @@ public class TradeHeartCommand implements CommandExecutor {
         ItemMeta meta = heartItem.getItemMeta();
         
         if (meta != null) {
-            meta.setDisplayName("§c§lHeart Container");
+            meta.setDisplayName("§c§lHeart");
             
             List<String> lore = new ArrayList<>();
             lore.add("§7Right-click to consume");
