@@ -1,6 +1,0 @@
-name: UnnamedRebalance
-version: 1.0.0
-main: com.unnamedrebalance.UnnamedRebalance.UnnamedRebalance
-api-version: '1.21'
-author: Dezertman1
-description: Custom gameplay modifications
