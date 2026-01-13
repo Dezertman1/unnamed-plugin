@@ -68,6 +68,7 @@ public class UnnamedRebalance extends JavaPlugin {
         banDuration = getConfig().getLong("ban-on-last-heart.ban-duration", 0); // 0 = permanent
         broadcastBanEnabled = getConfig().getBoolean("ban-on-last-heart.broadcast-enabled", true);
         banBroadcastMessage = getConfig().getString("ban-on-last-heart.broadcast-message", "§c{player} §7has been eliminated!");
+        combatDuration = getConfig().getLong("combat-duration-seconds", 10) * 1000L;
     }
 
     private void registerListeners() {
@@ -164,4 +165,8 @@ public class UnnamedRebalance extends JavaPlugin {
     public String getBanBroadcastMessage() {
         return banBroadcastMessage;
     }
+
+    public long getCombatDuration() {
+    return combatDuration;
+}
 }
