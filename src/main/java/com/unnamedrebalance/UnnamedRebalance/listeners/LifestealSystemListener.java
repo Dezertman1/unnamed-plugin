@@ -81,6 +81,12 @@ public class LifestealSystemListener implements Listener {
             String broadcastMessage = plugin.getBanBroadcastMessage()
                 .replace("{player}", player.getName());
             Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', broadcastMessage));
+
+            // Play a sound for all online players
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1f, 1f);
+                onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.5f, 0.8f);
+            }
         }
 
         player.kickPlayer(ChatColor.translateAlternateColorCodes('&', banMessage));

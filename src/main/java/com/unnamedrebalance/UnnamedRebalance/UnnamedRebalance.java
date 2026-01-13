@@ -6,6 +6,8 @@ import com.unnamedrebalance.UnnamedRebalance.listeners.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
+private CombatManager combatManager
+
 public class UnnamedRebalance extends JavaPlugin {
 
     private static UnnamedRebalance instance;
@@ -27,25 +29,32 @@ public class UnnamedRebalance extends JavaPlugin {
     private long banDuration;
     private boolean broadcastBanEnabled;
     private String banBroadcastMessage;
+    private long combatDuration;
+    private boolean disablePearlsInCombat;
+    private boolean disableTotemsInCombat;
 
     @Override
     public void onEnable() {
         instance = this;
-        
-        // Initialize NamespacedKey for heart items
         heartItemKey = new NamespacedKey(this, "heart_item");
         
         saveDefaultConfig();
-        
         loadConfig();
         
-        registerListeners();
+        // Initialize the manager AFTER loading config
+        this.combatManager = new CombatManager(this); 
         
+        registerListeners();
         registerCommands();
         
         getLogger().info("UnnamedRebalance has been enabled!");
-        logConfig();
     }
+    
+    // Add the getter so other files can use it
+    public CombatManager getCombatManager() {
+        return combatManager;
+    }
+    
 
     @Override
     public void onDisable() {
@@ -176,7 +185,7 @@ public boolean isDisablePearlsInCombat() {
     return disablePearlsInCombat;
 }
 
-public boolean isDisableTotemsOutsideCombat() {
+public boolean isDisableTotemsInCombat() {
     return disableTotemsInCombat;
 }
 }

@@ -1,0 +1,36 @@
+# --- Combat System Settings ---
+# How many seconds a player remains "in combat" after hitting/being hit
+combat-duration-seconds: 10
+
+# --- Mace Settings ---
+mace-damage-multiplier: 0.75
+
+# --- Totem Settings ---
+# Set to true to disable totems globally
+totems-disabled: true
+# If totems-disabled is false, should they be disabled ONLY when in combat?
+disable-totems-in-combat: true
+totem-disable-message: "§c§lTotems of Undying only function while in combat!"
+
+# --- Ender Pearl Settings ---
+# Set to true to disable pearls globally
+ender-pearl-teleport-disabled: false
+# If ender-pearl-teleport-disabled is false, should they be disabled when IN combat?
+disable-pearls-in-combat: true
+ender-pearl-disable-message: "§c§lYou cannot use Ender Pearls while in combat!"
+
+# --- Lifesteal Settings ---
+lifesteal-enabled: true
+hearts-per-kill: 1.0
+min-health: 2.0
+max-health: 40.0
+
+# --- Elimination Settings ---
+ban-on-last-heart:
+  enabled: true
+  ban-message: "§c§lYou have been eliminated!\n§7You lost your last heart in PvP."
+  ban-reason: "Lost all hearts in combat"
+  # Duration in milliseconds (0 for permanent)
+  ban-duration: 0
+  broadcast-enabled: true
+  broadcast-message: "§c§l✦ {player} §7has been eliminated!"
