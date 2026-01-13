@@ -74,12 +74,11 @@ public class UnnamedRebalance extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TotemListener(this), this);
         getServer().getPluginManager().registerEvents(new MaceListener(this), this);
         getServer().getPluginManager().registerEvents(new EnderPearlListener(this), this);
-        getServer().getPluginManager().registerEvents(new LifestealListener(this), this);
+        getServer().getPluginManager().registerEvents(new LifestealSystemListener(this), this);
         getServer().getPluginManager().registerEvents(new HeartItemListener(this), this);
         getServer().getPluginManager().registerEvents(new PreventBeaconCraftListener(this), this);
         getServer().getPluginManager().registerEvents(new CraftableHeartListener(this), this);
         getServer().getPluginManager().registerEvents(new HeartContainerRecipeListener(this), this);
-        getServer().getPluginManager().registerEvents(new HeartBanListener(this), this);
         getServer().getPluginManager().registerEvents(new UnbanBeaconCraftListener(this), this);
         getServer().getPluginManager().registerEvents(new UnbanBeaconUseListener(this), this);
     }
