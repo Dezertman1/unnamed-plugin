@@ -21,6 +21,12 @@ public class UnnamedRebalance extends JavaPlugin {
     private double heartsPerKill;
     private double minHealth;
     private double maxHealth;
+    private boolean banOnLastHeartEnabled;
+    private String banMessage;
+    private String banReason;
+    private long banDuration;
+    private boolean broadcastBanEnabled;
+    private String banBroadcastMessage;
 
     @Override
     public void onEnable() {
@@ -60,6 +66,12 @@ public class UnnamedRebalance extends JavaPlugin {
         heartsPerKill = getConfig().getDouble("hearts-per-kill", 1.0);
         minHealth = getConfig().getDouble("min-health", 2.0);
         maxHealth = getConfig().getDouble("max-health", 40.0);
+        banOnLastHeartEnabled = getConfig().getBoolean("ban-on-last-heart.enabled", true);
+        banMessage = getConfig().getString("ban-on-last-heart.ban-message", "§c§lYou have been eliminated!\n§7You lost your last heart.");
+        banReason = getConfig().getString("ban-on-last-heart.ban-reason", "Lost all hearts");
+        banDuration = getConfig().getLong("ban-on-last-heart.ban-duration", 0); // 0 = permanent
+        broadcastBanEnabled = getConfig().getBoolean("ban-on-last-heart.broadcast-enabled", true);
+        banBroadcastMessage = getConfig().getString("ban-on-last-heart.broadcast-message", "§c{player} §7has been eliminated!");
     }
 
     private void registerListeners() {
@@ -68,9 +80,12 @@ public class UnnamedRebalance extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnderPearlListener(this), this);
         getServer().getPluginManager().registerEvents(new LifestealListener(this), this);
         getServer().getPluginManager().registerEvents(new HeartItemListener(this), this);
+        getServer().getPluginManager().registerEvents(new PreventBeaconCraftListener(this), this);
         getServer().getPluginManager().registerEvents(new CraftableHeartListener(this), this);
         getServer().getPluginManager().registerEvents(new HeartContainerRecipeListener(this), this);
-        getServer().getPluginManager().registerEvents(new PreventBeaconCraftListener(this), this);
+        getServer().getPluginManager().registerEvents(new HeartBanListener(this), this);
+        getServer().getPluginManager().registerEvents(new UnbanBeaconCraftListener(this), this);
+        getServer().getPluginManager().registerEvents(new UnbanBeaconUseListener(this), this);
     }
 
     private void registerCommands() {
@@ -83,6 +98,7 @@ public class UnnamedRebalance extends JavaPlugin {
         getLogger().info("Totems disabled: " + totemsDisabled);
         getLogger().info("Ender pearl teleport disabled: " + enderPearlTeleportDisabled);
         getLogger().info("Lifesteal enabled: " + lifestealEnabled + " (" + heartsPerKill + " hearts per kill)");
+        getLogger().info("Ban on last heart: " + banOnLastHeartEnabled);
     }
 
     // Getters for config values
@@ -128,5 +144,29 @@ public class UnnamedRebalance extends JavaPlugin {
 
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    public boolean isBanOnLastHeartEnabled() {
+        return banOnLastHeartEnabled;
+    }
+
+    public String getBanMessage() {
+        return banMessage;
+    }
+
+    public String getBanReason() {
+        return banReason;
+    }
+
+    public long getBanDuration() {
+        return banDuration;
+    }
+
+    public boolean isBroadcastBanEnabled() {
+        return broadcastBanEnabled;
+    }
+
+    public String getBanBroadcastMessage() {
+        return banBroadcastMessage;
     }
 }
