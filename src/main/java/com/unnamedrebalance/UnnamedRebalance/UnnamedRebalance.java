@@ -69,6 +69,8 @@ public class UnnamedRebalance extends JavaPlugin {
         broadcastBanEnabled = getConfig().getBoolean("ban-on-last-heart.broadcast-enabled", true);
         banBroadcastMessage = getConfig().getString("ban-on-last-heart.broadcast-message", "§c{player} §7has been eliminated!");
         combatDuration = getConfig().getLong("combat-duration-seconds", 10) * 1000L;
+        disablePearlsInCombat = getConfig().getBoolean("disable-pearls-in-combat", true);
+        disableTotemsInCombat = getConfig().getBoolean("disable-totems-outside-combat", true);
     }
 
     private void registerListeners() {
@@ -168,5 +170,13 @@ public class UnnamedRebalance extends JavaPlugin {
 
     public long getCombatDuration() {
     return combatDuration;
+}
+
+public boolean isDisablePearlsInCombat() {
+    return disablePearlsInCombat;
+}
+
+public boolean isDisableTotemsOutsideCombat() {
+    return disableTotemsInCombat;
 }
 }

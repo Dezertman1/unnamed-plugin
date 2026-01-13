@@ -19,17 +19,27 @@ public class TotemListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onTotemUse(EntityResurrectEvent event) {
-        if (!plugin.isTotemsDisabled()) return;
-        
-        if (event.getEntity() instanceof Player) {
-            if (event.getHand() != null) {
-                Player player = (Player) event.getEntity();
-                ItemStack item = player.getInventory().getItem(event.getHand());
-                
-                if (item != null && item.getType() == Material.TOTEM_OF_UNDYING) {
-                    event.setCancelled(true);
-                    player.sendMessage(plugin.getTotemDisableMessage());
-                }
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        boolean shouldBlock = false;
+
+        // If global disable is ON, block all totems.
+        if (plugin.isTotemsDisabled()) {
+            shouldBlock = true;
+        } 
+        // If global is OFF, check if we should block because they are in combat.
+        else if (plugin.isDisableTotemsInCombat()) {
+            if (plugin.getCombatManager().isInCombat(player)) {
+                shouldBlock = true;
+            }
+        }
+
+        if (shouldBlock) {
+            // Check if they are actually holding a totem
+            ItemStack item = (event.getHand() != null) ? player.getInventory().getItem(event.getHand()) : null;
+            if (item != null && item.getType() == Material.TOTEM_OF_UNDYING) {
+                event.setCancelled(true);
+                player.sendMessage(plugin.getTotemDisableMessage());
             }
         }
     }
