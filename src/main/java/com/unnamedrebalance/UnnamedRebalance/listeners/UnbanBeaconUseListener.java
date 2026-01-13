@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,15 +24,16 @@ public class UnbanBeaconUseListener implements Listener {
 
     private static final String GUI_TITLE = "§6§lBeacon of Resurrection";
 
+    private final UnnamedRebalance plugin;
     private final NamespacedKey unbanBeaconKey;
     private final NamespacedKey bannedPlayerKey;
 
     public UnbanBeaconUseListener(UnnamedRebalance plugin) {
+        this.plugin = plugin;
         this.unbanBeaconKey = new NamespacedKey(plugin, "unban_beacon");
         this.bannedPlayerKey = new NamespacedKey(plugin, "banned_player");
     }
 
-    /* ------------------------------------------------------------ */
     @EventHandler
     public void onUnbanBeaconUse(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR &&
@@ -51,7 +53,6 @@ public class UnbanBeaconUseListener implements Listener {
         openUnbanGUI(player);
     }
 
-    /* ------------------------------------------------------------ */
     private void openUnbanGUI(Player player) {
         BanList banList = Bukkit.getBanList(BanList.Type.PROFILE);
 
@@ -82,7 +83,6 @@ public class UnbanBeaconUseListener implements Listener {
         player.openInventory(gui);
     }
 
-    /* ------------------------------------------------------------ */
     private ItemStack createBannedPlayerHead(PlayerProfile profile, BanList banList) {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -113,7 +113,6 @@ public class UnbanBeaconUseListener implements Listener {
         return skull;
     }
 
-    /* ------------------------------------------------------------ */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -152,15 +151,13 @@ public class UnbanBeaconUseListener implements Listener {
         banList.pardon(profile);
 
         OfflinePlayer offline = Bukkit.getOfflinePlayer(profile.getUniqueId());
-        if (offline.isOnline()) {
-            Player online = offline.getPlayer();
-            if (online != null) {
-                AttributeInstance health = online.getAttribute(Attribute.MAX_HEALTH);
-                if (health != null) {
-                    health.setBaseValue(20.0);
-                    online.setHealth(20.0);
-                }
-            }
+        
+        // Check if player is online, otherwise add them to a pending resurrection list
+        if (offline.isOnline() && offline.getPlayer() != null) {
+            applyResurrectionHealth(offline.getPlayer());
+        } else {
+            plugin.getConfig().set("pending_resurrection." + profile.getUniqueId(), true);
+            plugin.saveConfig();
         }
 
         mainHand.setAmount(mainHand.getAmount() - 1);
@@ -178,5 +175,28 @@ public class UnbanBeaconUseListener implements Listener {
                 0.5, 0.5, 0.5,
                 0.1
         );
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        String path = "pending_resurrection." + player.getUniqueId();
+
+        if (plugin.getConfig().contains(path)) {
+            applyResurrectionHealth(player);
+
+            plugin.getConfig().set(path, null);
+            plugin.saveConfig();
+            
+            player.sendMessage("§6§l✦ §eYou have been resurrected with 4 hearts!");
+        }
+    }
+
+    private void applyResurrectionHealth(Player target) {
+        AttributeInstance healthAttr = target.getAttribute(Attribute.MAX_HEALTH);
+        if (healthAttr != null) {
+            healthAttr.setBaseValue(8.0); // How much health the player is unbanned with
+            target.setHealth(8.0);
+        }
     }
 }
