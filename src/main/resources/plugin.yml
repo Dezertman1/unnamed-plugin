@@ -8,8 +8,8 @@ description: Custom gameplay modifications
 commands:
   tradeheart:
     description: Trade your max health for a Heart Container item
-    usage: /tradeheart [hearts]
-    aliases: [th, trade]
+    usage: /withdraw [hearts]
+    aliases: [wd, trade]
   resethealth:
     description: Reset a player's max health to default (10 hearts)
     usage: /resethealth [player]

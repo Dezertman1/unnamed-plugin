@@ -35,16 +35,12 @@ public class UnnamedRebalance extends JavaPlugin {
         // Initialize NamespacedKey for heart items
         heartItemKey = new NamespacedKey(this, "heart_item");
         
-        // Save default config if it doesn't exist
         saveDefaultConfig();
         
-        // Load config values
         loadConfig();
         
-        // Register event listeners
         registerListeners();
         
-        // Register commands
         registerCommands();
         
         getLogger().info("UnnamedRebalance has been enabled!");

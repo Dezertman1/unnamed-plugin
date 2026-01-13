@@ -59,10 +59,6 @@ public class CraftableHeartListener implements Listener {
                         
                         player.sendMessage("§a§lYou consumed a Craftable Heart Container!");
                         player.sendMessage("§a+§c" + actualHeartsAdded + " heart(s)§a! Current max health: §2" + (newMax / 2.0) + " hearts");
-                        
-                        if (newMax == 20.0) {
-                            player.sendMessage("§7§o(You've reached the craftable heart limit of 10 hearts)");
-                        }
                     }
                 }
             }
