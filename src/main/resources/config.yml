@@ -2,6 +2,14 @@
 # How many seconds a player remains "in combat" after hitting/being hit
 combat-duration-seconds: 10
 
+# Whether to limit death messages to a specific radius.
+# If false, death messages remain global (vanilla behavior).
+death-message-radius-enabled: false
+
+# The radius in blocks for death messages if enabled above.
+death-message-radius: 500.0
+
+
 # --- Mace Settings ---
 mace-damage-multiplier: 0.75
 
