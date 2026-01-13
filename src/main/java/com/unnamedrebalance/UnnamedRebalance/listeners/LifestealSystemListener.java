@@ -91,4 +91,29 @@ public class LifestealSystemListener implements Listener {
 
         player.kickPlayer(ChatColor.translateAlternateColorCodes('&', banMessage));
     }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerDeathMessage(PlayerDeathEvent event) {
+        if (!plugin.isDeathMessageRadiusEnabled()) return;
+
+        String originalMessage = event.getDeathMessage();
+        if (originalMessage == null || originalMessage.isEmpty()) return;
+
+        // Cancel global broadcast
+        event.setDeathMessage(null);
+
+        Player victim = event.getEntity();
+        double radiusSquared = Math.pow(plugin.getDeathMessageRadius(), 2);
+
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            if (onlinePlayer.getWorld().equals(victim.getWorld())) {
+                // Check distance
+                if (onlinePlayer.getLocation().distanceSquared(victim.getLocation()) <= radiusSquared) {
+                    onlinePlayer.sendMessage(originalMessage);
+                }
+            }
+        }
+    }
+
+
 }

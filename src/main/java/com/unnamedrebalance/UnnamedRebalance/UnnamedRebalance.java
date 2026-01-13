@@ -32,6 +32,8 @@ public class UnnamedRebalance extends JavaPlugin {
     private long combatDuration;
     private boolean disablePearlsInCombat;
     private boolean disableTotemsInCombat;
+    private double deathMessageRadius;
+    private boolean deathMessageRadiusEnabled;
 
     @Override
     public void onEnable() {
@@ -80,6 +82,8 @@ public class UnnamedRebalance extends JavaPlugin {
         combatDuration = getConfig().getLong("combat-duration-seconds", 10) * 1000L;
         disablePearlsInCombat = getConfig().getBoolean("disable-pearls-in-combat", true);
         disableTotemsInCombat = getConfig().getBoolean("disable-totems-outside-combat", true);
+        deathMessageRadius = getConfig().getDouble("death-message-radius", 500.0);
+        deathMessageRadiusEnabled = getConfig().getBoolean("death-message-radius-enabled", true);
     }
 
     private void registerListeners() {
@@ -178,14 +182,22 @@ public class UnnamedRebalance extends JavaPlugin {
     }
 
     public long getCombatDuration() {
-    return combatDuration;
-}
+        return combatDuration;
+    }
 
-public boolean isDisablePearlsInCombat() {
-    return disablePearlsInCombat;
-}
+    public boolean isDisablePearlsInCombat() {
+        return disablePearlsInCombat;
+    }
 
-public boolean isDisableTotemsInCombat() {
-    return disableTotemsInCombat;
-}
+    public boolean isDisableTotemsInCombat() {
+        return disableTotemsInCombat;
+    }
+
+    public double getDeathMessageRadius() {
+        return deathMessageRadius;
+    }
+
+    public boolean isDeathMessageRadiusEnabled() {
+        return deathMessageRadiusEnabled;
+    }
 }
