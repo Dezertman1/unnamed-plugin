@@ -5,14 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeartContainerRecipeListener {
+public class HeartContainerRecipeListener implements Listener {
 
     private final UnnamedRebalance plugin;
     private final NamespacedKey craftableHeartKey;
@@ -20,26 +22,33 @@ public class HeartContainerRecipeListener {
     public HeartContainerRecipeListener(UnnamedRebalance plugin) {
         this.plugin = plugin;
         this.craftableHeartKey = new NamespacedKey(plugin, "craftable_heart");
-        // Register the recipe immediately when this listener is created
         registerRecipe();
     }
 
     private void registerRecipe() {
-        // Create the unique key for this recipe
         NamespacedKey recipeKey = new NamespacedKey(plugin, "heart_container_recipe");
         
-        // Delete existing recipe if it exists (prevents duplicates on reload)
         if (Bukkit.getRecipe(recipeKey) != null) {
             Bukkit.removeRecipe(recipeKey);
         }
 
         ShapedRecipe recipe = new ShapedRecipe(recipeKey, createCraftableHeartContainer());
         
-        // N = Netherite Ingot, S = Nautilus Shell, T = Totem of Undying
+        // N = Netherite Ingot, S = Nautilus Shell, T = Core Ingredient
         recipe.shape("NSN", "STS", "NSN");
+        
         recipe.setIngredient('N', Material.NETHERITE_INGOT);
         recipe.setIngredient('S', Material.NAUTILUS_SHELL);
-        recipe.setIngredient('T', Material.TOTEM_OF_UNDYING);
+
+        // Players can use a Totem, Ominous Key, Wither Skull, OR Recovery Compass
+        RecipeChoice.MaterialChoice coreIngredients = new RecipeChoice.MaterialChoice(
+                Material.TOTEM_OF_UNDYING,
+                Material.OMINOUS_TRIAL_KEY,
+                Material.WITHER_SKELETON_SKULL,
+                Material.RECOVERY_COMPASS
+        );
+        
+        recipe.setIngredient('T', coreIngredients);
 
         Bukkit.addRecipe(recipe);
     }
@@ -49,7 +58,7 @@ public class HeartContainerRecipeListener {
         ItemMeta meta = heartItem.getItemMeta();
         
         if (meta != null) {
-            meta.setDisplayName("§c§lCraftable Heart Container");
+            meta.setDisplayName("§c§lCraftable Heart");
             
             List<String> lore = new ArrayList<>();
             lore.add("§7Right-click to consume");

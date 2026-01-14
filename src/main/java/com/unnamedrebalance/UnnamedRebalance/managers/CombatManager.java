@@ -5,8 +5,9 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.bukkit.event.Listener;
 
-public class CombatManager {
+public class CombatManager implements Listener {
     private final UnnamedRebalance plugin;
     private final Map<UUID, Long> combatLog = new HashMap<>();
 

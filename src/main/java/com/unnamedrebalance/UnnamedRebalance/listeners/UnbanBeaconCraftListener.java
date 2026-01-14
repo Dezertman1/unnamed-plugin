@@ -9,12 +9,13 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UnbanBeaconCraftListener {
+public class UnbanBeaconCraftListener implements Listener {
 
     private final UnnamedRebalance plugin;
     private final NamespacedKey unbanBeaconKey;

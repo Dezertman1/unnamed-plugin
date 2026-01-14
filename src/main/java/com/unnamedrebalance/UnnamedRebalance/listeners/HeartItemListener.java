@@ -44,7 +44,7 @@ public class HeartItemListener implements Listener {
                             // Remove one heart item
                             item.setAmount(item.getAmount() - 1);
                             
-                            player.sendMessage("§a§lYou consumed a Heart Container!");
+                            player.sendMessage("§a§lYou consumed a Heart!");
                             player.sendMessage("§a+§c" + hearts + " heart(s)§a! New max health: §2" + (newMax / 2.0) + " hearts");
                         } else {
                             player.sendMessage("§c§lYou are already at maximum health!");

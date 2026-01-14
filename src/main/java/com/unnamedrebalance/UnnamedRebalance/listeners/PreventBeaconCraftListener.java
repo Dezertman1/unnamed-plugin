@@ -26,12 +26,12 @@ public class PreventBeaconCraftListener implements Listener {
         
         // Check if the result is a beacon
         if (result != null && result.getType() == Material.BEACON) {
-            // Check if any of the crafting ingredients are heart containers
+            // Check if any of the crafting ingredients are hearts
             for (ItemStack item : inventory.getMatrix()) {
                 if (item != null && item.getType() == Material.NETHER_STAR && item.hasItemMeta()) {
                     ItemMeta meta = item.getItemMeta();
                     if (meta != null && meta.getPersistentDataContainer().has(plugin.getHeartItemKey(), PersistentDataType.DOUBLE)) {
-                        // Heart container detected - cancel the craft
+                        // Heart detected - cancel the craft
                         inventory.setResult(new ItemStack(Material.AIR));
                         return;
                     }

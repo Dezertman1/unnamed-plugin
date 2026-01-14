@@ -9,16 +9,15 @@ death-message-radius-enabled: false
 # The radius in blocks for death messages if enabled above.
 death-message-radius: 500.0
 
-
 # --- Mace Settings ---
 mace-damage-multiplier: 0.75
 
 # --- Totem Settings ---
 # Set to true to disable totems globally
 totems-disabled: true
-# If totems-disabled is false, should they be disabled ONLY when in combat?
+# If totems-disabled is false, should they be disabled when IN combat?
 disable-totems-in-combat: true
-totem-disable-message: "§c§lTotems of Undying only function while in combat!"
+totem-disable-message: "§c§lYou cannot use Totems of Undying while in combat!"
 
 # --- Ender Pearl Settings ---
 # Set to true to disable pearls globally
@@ -42,3 +41,13 @@ ban-on-last-heart:
   ban-duration: 0
   broadcast-enabled: true
   broadcast-message: "§c§l✦ {player} §7has been eliminated!"
+
+# Grace period in seconds where a player cannot lose hearts again after dying
+death-grace-period-seconds: 300
+
+# Protect heart items from environmental damage
+heart-items-blastproof: true
+heart-items-fireproof: true
+
+# End Dimension Settings
+end-dimension-enabled: false

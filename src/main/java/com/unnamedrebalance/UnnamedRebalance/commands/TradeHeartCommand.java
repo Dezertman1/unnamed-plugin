@@ -89,7 +89,7 @@ public class TradeHeartCommand implements CommandExecutor {
                 player.getInventory().addItem(createHeartItem(remainingPartial));
             }
             
-            player.sendMessage("§6§lYou traded §c" + heartsToTrade + " heart(s) §6§lfor Heart Container(s)!");
+            player.sendMessage("§6§lYou traded §c" + heartsToTrade + " heart(s) §6§lfor Heart(s)!");
             player.sendMessage("§6New max health: §e" + (newMax / 2.0) + " hearts");
         }
         
@@ -101,11 +101,11 @@ public class TradeHeartCommand implements CommandExecutor {
         ItemMeta meta = heartItem.getItemMeta();
         
         if (meta != null) {
-            meta.setDisplayName("§c§lHeart Container " + (hearts == 1.0 ? "" : "§7(" + hearts + ")"));
+            meta.setDisplayName("§c§lHeart " + (hearts == 1.0 ? "" : "§7(" + hearts + ")"));
             
             List<String> lore = new ArrayList<>();
             lore.add("§7Right-click to consume");
-            lore.add("§7and restore §c" + hearts + " heart(s)§7!");
+            lore.add("§7and restore §c1.0 heart§7!");
             meta.setLore(lore);
             
             meta.getPersistentDataContainer().set(plugin.getHeartItemKey(), PersistentDataType.DOUBLE, hearts);
