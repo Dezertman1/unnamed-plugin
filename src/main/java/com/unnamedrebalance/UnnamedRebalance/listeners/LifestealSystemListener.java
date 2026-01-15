@@ -4,6 +4,8 @@ import com.unnamedrebalance.UnnamedRebalance.UnnamedRebalance;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,6 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
@@ -68,15 +72,14 @@ public class LifestealSystemListener implements Listener {
             
             // If killer is already at or above max health, give item instead
             if (currentKillerMax >= plugin.getMaxHealth()) {
-                HeartContainerRecipeListener helper = new HeartContainerRecipeListener(plugin);
-                ItemStack heartItem = helper.createCraftableHeartContainer();
+                ItemStack heartItem = createHeartItem(plugin.getHeartsPerKill());
                 
                 if (killer.getInventory().firstEmpty() == -1) {
                     killer.getWorld().dropItemNaturally(killer.getLocation(), heartItem);
                 } else {
                     killer.getInventory().addItem(heartItem);
                 }
-                killer.sendMessage("§a§lYou are at max health! A Heart Container was added to your inventory.");
+                killer.sendMessage("§a§lYou are at max health! A Heart was added to your inventory.");
             } else {
                 double newKillerMax = Math.min(plugin.getMaxHealth(), currentKillerMax + heartsToAdd);
                 killerHealth.setBaseValue(newKillerMax);
@@ -135,5 +138,26 @@ public class LifestealSystemListener implements Listener {
                 }
             }
         }
+    }
+
+    private ItemStack createHeartItem(double hearts) {
+        ItemStack heartItem = new ItemStack(Material.NETHER_STAR);
+        ItemMeta meta = heartItem.getItemMeta();
+        
+        if (meta != null) {
+            meta.setDisplayName("§c§lHeart " + (hearts == 1.0 ? "" : "§7(" + hearts + ")"));
+            
+            List<String> lore = new ArrayList<>();
+            lore.add("§7Right-click to consume");
+            lore.add("§7and restore §c1.0 heart§7!");
+            meta.setLore(lore);
+            
+            meta.getPersistentDataContainer().set(plugin.getHeartItemKey(), PersistentDataType.DOUBLE, hearts);
+            meta.setEnchantmentGlintOverride(true);
+            
+            heartItem.setItemMeta(meta);
+        }
+        
+        return heartItem;
     }
 }

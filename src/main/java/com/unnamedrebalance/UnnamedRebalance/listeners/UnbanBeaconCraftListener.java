@@ -31,11 +31,11 @@ public class UnbanBeaconCraftListener implements Listener {
     private void registerUnbanBeaconRecipe() {
         NamespacedKey recipeKey = new NamespacedKey(plugin, "unban_beacon_recipe");
 
-        ItemStack tradedHeart = createTradedHeartReference();
-        ItemStack craftableHeart = createCraftableHeartReference();
-
-        // Allow both hearts in the recipe
-        RecipeChoice.ExactChoice heartChoices = new RecipeChoice.ExactChoice(Arrays.asList(tradedHeart, craftableHeart));
+        // Allow both regular hearts (NETHER_STAR) and craftable hearts (RED_DYE) in the recipe
+        RecipeChoice.MaterialChoice heartChoices = new RecipeChoice.MaterialChoice(
+            Material.NETHER_STAR,   // Regular hearts
+            Material.RED_DYE        // Craftable hearts
+        );
 
         ShapedRecipe recipe = new ShapedRecipe(recipeKey, createUnbanBeacon());
         recipe.shape("HDH", "DBD", "HDH");
